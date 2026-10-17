@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">Fucking Stop</string>
     <string name="description">Locks launcher icons to the app\'s default. Tick the apps to freeze in the scope list.</string>
+    <string name="empty">Nothing blocked yet. Apps in the scope list get their icon reset the next time they start.</string>
+    <string name="clear">Clear log</string>
     <string-array name="scope">
         <item>com.duolingo</item>
     </string-array>

@@ -10,15 +10,34 @@ android {
         applicationId 'dev.natmon.fuckingstop'
         minSdk 29
         targetSdk 36
-        versionCode 1
-        versionName '0.1'
+        versionCode 2
+        versionName '0.2'
+    }
+
+    // Release key lives outside the repo; without it, release builds use the debug key.
+    def keyProps = file(System.getenv('FUCKING_STOP_KEYSTORE') ?: "${System.getProperty('user.home')}/.config/fucking-stop/keystore.properties")
+    signingConfigs {
+        release {
+            if (keyProps.exists()) {
+                def p = new Properties()
+                keyProps.withInputStream { p.load(it) }
+                storeFile file(p.storeFile)
+                storePassword p.storePassword
+                keyAlias p.keyAlias
+                keyPassword p.keyPassword
+            }
+        }
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            signingConfig signingConfigs.debug
+            signingConfig keyProps.exists() ? signingConfigs.release : signingConfigs.debug
         }
+    }
+
+    buildFeatures {
+        buildConfig true
     }
 
     compileOptions {
